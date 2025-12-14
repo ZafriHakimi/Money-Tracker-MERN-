@@ -6,7 +6,19 @@ function App() {
   const [date, setDate] = useState('')
   const [desc, setDesc] = useState('')
 
-  const addTransaction = () => {}
+  const addTransaction = (data) => {
+    data.preventDefault()
+    const url = import.meta.env.VITE_API_URL+'/transaction';
+    fetch(url, {
+      method: 'POST',
+      headers: {'Content-type':'application/json'},
+      body: JSON.stringify({ name, desc, date })
+    }).then(res => {
+      res.json().then( json => {
+        console.log('result', json);
+      })
+    });
+  };
 
   return (
     <main>
