@@ -16,10 +16,10 @@ app.get('/backend/test', (req, res) => {
 app.post('/backend/transaction', async (req, res) => {
     //connect to db
     await mongoose.connect(process.env.MONGO_URL);
-    const {name, desc, date} = req.body;
-    const transaction = await Transaction.create({name, desc, date});
+    const {name, price ,desc, date} = req.body;//retrieve data user inserted
+    const transaction = await Transaction.create({name, price, desc, date});
 
-    res.json(transaction);
+    res.json(transaction);//send user data to db
 })
 
 app.listen(5000, () => {

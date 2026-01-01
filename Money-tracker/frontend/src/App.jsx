@@ -9,13 +9,23 @@ function App() {
   const addTransaction = (data) => {
     data.preventDefault()
     const url = import.meta.env.VITE_API_URL+'/transaction';
+    const price = name.split(' ')[0]; //cuz price is at the front
     fetch(url, {
       method: 'POST',
       headers: {'Content-type':'application/json'},
-      body: JSON.stringify({ name, desc, date })
+      body: JSON.stringify({ 
+        price,
+        name: name.substring(price.length+1), // take name start after price 
+        desc,
+        date 
+      })
     }).then(res => {
       res.json().then( json => {
-        console.log('result', json);
+        //clear field after add
+        setName('');
+        setDate('');
+        setDesc('');
+        console.log('result', json); //test can connect backend or not
       })
     });
   };
