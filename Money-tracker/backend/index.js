@@ -13,13 +13,21 @@ app.get('/backend/test', (req, res) => {
     res.send('test ok');
 })
 
+//add transactions to db
 app.post('/backend/transaction', async (req, res) => {
-    //connect to db
     await mongoose.connect(process.env.MONGO_URL);
     const {name, price ,desc, date} = req.body;//retrieve data user inserted
     const transaction = await Transaction.create({name, price, desc, date});
 
     res.json(transaction);//send user data to db
+})
+
+//display all transactions, get from db(model)
+app.get('/backend/transaction_list', async (req, res) => {
+    await mongoose.connect(process.env.MONGO_URL);
+    const transaction_list = await Transaction.find();
+
+    res.json(transaction_list);//send db data to user
 })
 
 app.listen(5000, () => {
