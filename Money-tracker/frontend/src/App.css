@@ -91,7 +91,7 @@ div.price.green{
 }
 
 div.price.red{
-  color: #c11;
+  color: rgb(184, 29, 29);
 }
 
 div.transaction div.datetime{

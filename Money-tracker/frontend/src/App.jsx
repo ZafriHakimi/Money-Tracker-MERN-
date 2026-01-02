@@ -78,7 +78,7 @@ function App() {
             <div className="description">{trans.desc}</div>
           </div>
           <div className="right">
-            <div className="price red">{trans.price}</div>
+            <div className={trans.price < 0 ? "price red" : 'price green'}>{trans.price}</div>
             <div className="datetime">{trans.date}</div>
           </div>
         </div>
