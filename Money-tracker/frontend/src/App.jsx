@@ -45,6 +45,18 @@ function App() {
     return total += trans.price;
   }, 0); //reduce has initialvalue & return 1 value, so no map
 
+  const formattedDate = stringDate => {
+    const date = new Date(stringDate);
+    return date.toLocaleString('en-MY', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   return (
     <main>
       <h1>RM {balance == 0 ? '0' : balance}<span></span></h1>
@@ -53,7 +65,7 @@ function App() {
           <input 
             type='number' 
             value={price} 
-            placeholder=''
+            placeholder='income/expense'
             onChange={e => setPrice(e.target.value)}
           />
           <input 
@@ -80,7 +92,7 @@ function App() {
           </div>
           <div className="right">
             <div className={trans.price < 0 ? "price red" : 'price green'}>RM {trans.price}</div>
-            <div className="datetime">{trans.date}</div>
+            <div className="datetime">{formattedDate(trans.date)}</div>
           </div>
         </div>
       ))}
