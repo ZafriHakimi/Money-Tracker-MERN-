@@ -16,8 +16,8 @@ app.get('/backend/test', (req, res) => {
 //add transactions to db
 app.post('/backend/transaction', async (req, res) => {
     await mongoose.connect(process.env.MONGO_URL);
-    const {name, price ,desc, date} = req.body;//retrieve data user inserted
-    const transaction = await Transaction.create({name, price, desc, date});
+    const {price ,desc, date} = req.body;//retrieve data user inserted
+    const transaction = await Transaction.create({price, desc, date});
 
     res.json(transaction);//send user data to db
 })

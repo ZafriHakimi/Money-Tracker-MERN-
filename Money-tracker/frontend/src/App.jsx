@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
 
-  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
   const [date, setDate] = useState('')
   const [desc, setDesc] = useState('')
   const [transaction, setTransaction] = useState([])
@@ -22,20 +22,18 @@ function App() {
   const addTransaction = (data) => {
     data.preventDefault()
     const url = import.meta.env.VITE_API_URL+'/transaction';
-    const price = name.split(' ')[0]; //cuz price is at the front
     fetch(url, {
       method: 'POST',
       headers: {'Content-type':'application/json'},
       body: JSON.stringify({ 
         price,
-        name: name.substring(price.length+1), // take name start after price 
         desc,
         date 
       })
     }).then(res => {
       res.json().then(json => {
         //clear field after add
-        setName('');
+        setPrice('');
         setDate('');
         setDesc('');
         console.log('result', json); //test can connect backend or not
@@ -43,16 +41,20 @@ function App() {
     });
   };
 
+  const balance = transaction.reduce((total, trans) => {
+    return total += trans.price;
+  }, 0); //reduce has initialvalue & return 1 value, so no map
+
   return (
     <main>
-      <h1>RM500<span>.00</span></h1>
+      <h1>RM {balance == 0 ? '0' : balance}<span></span></h1>
       <form onSubmit={addTransaction}>
         <div className='basic'>
           <input 
-            type='text' 
-            value={name} 
+            type='number' 
+            value={price} 
             placeholder=''
-            onChange={e => setName(e.target.value)}
+            onChange={e => setPrice(e.target.value)}
           />
           <input 
             type='datetime-local'
@@ -74,11 +76,10 @@ function App() {
       {transaction.length > 0 && transaction.map(trans => (
         <div className="transaction" key={trans._id}>
           <div className="left">
-            <div className="name">{trans.name}</div>
-            <div className="description">{trans.desc}</div>
+            <div className="name">{trans.desc}</div>
           </div>
           <div className="right">
-            <div className={trans.price < 0 ? "price red" : 'price green'}>{trans.price}</div>
+            <div className={trans.price < 0 ? "price red" : 'price green'}>RM {trans.price}</div>
             <div className="datetime">{trans.date}</div>
           </div>
         </div>

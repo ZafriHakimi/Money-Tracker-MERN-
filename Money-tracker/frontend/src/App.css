@@ -38,7 +38,7 @@ form input{
 }
 
 form input[type='datetime-local']{
-  color: #777;
+  color: #ddd;
 }
 
 form div.basic{
