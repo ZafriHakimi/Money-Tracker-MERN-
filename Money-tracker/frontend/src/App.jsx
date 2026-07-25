@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import Dashboard from './pages/Dashboard/Dashboard.jsx'
 import './App.css'
 
-function App() {
+function TransactionsPage() {
 
   const [price, setPrice] = useState('')
   const [date, setDate] = useState('')
@@ -110,6 +112,22 @@ function App() {
       ))}
 
     </main>
+  )
+}
+
+function App() {
+  return (
+    <div className="app-shell">
+      <nav className="main-navigation" aria-label="Main navigation">
+        <NavLink to="/">Transactions</NavLink>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<TransactionsPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </div>
   )
 }
 

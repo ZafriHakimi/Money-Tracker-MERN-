@@ -1,0 +1,37 @@
+.dashboard-page {
+  max-width: 1400px;
+  min-height: 240px;
+}
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.chart-card {
+  min-height: 240px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #30313d;
+}
+
+.dashboard-message {
+  margin: 80px 0;
+  text-align: center;
+  color: #ddd;
+}
+
+.dashboard-error {
+  color: #ff8f8f;
+}
+
+@media (max-width: 900px) {
+  .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 8px;
+  }
+}
