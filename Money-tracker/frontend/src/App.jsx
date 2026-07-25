@@ -8,10 +8,6 @@ function App() {
   const [desc, setDesc] = useState('')
   const [transaction, setTransaction] = useState([])
 
-  useEffect(() => {
-    getTransacList()
-  }, [transaction])
-
   const getTransacList = async () => {
     const url = import.meta.env.VITE_API_URL+'/transaction_list';
     const res = await fetch(url);
@@ -19,27 +15,43 @@ function App() {
     setTransaction(list);
   };
 
-  const addTransaction = (data) => {
-    data.preventDefault()
-    const url = import.meta.env.VITE_API_URL+'/transaction';
-    fetch(url, {
-      method: 'POST',
-      headers: {'Content-type':'application/json'},
-      body: JSON.stringify({ 
-        price,
-        desc,
-        date 
-      })
-    }).then(res => {
-      res.json().then(json => {
-        //clear field after add
-        setPrice('');
-        setDate('');
-        setDesc('');
-        console.log('result', json); //test can connect backend or not
-      })
-    });
+  const addTransaction = async (event) => {
+    event.preventDefault();
+
+    try {
+      const url = `${import.meta.env.VITE_API_URL}/transaction`;
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          price,
+          desc,
+          date,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed: ${res.status}`);
+      }
+
+      const newTransaction = await res.json();
+
+      setTransaction(current => [...current, newTransaction]);
+
+      setPrice('');
+      setDate('');
+      setDesc('');
+    } catch (error) {
+      console.error('Unable to add transaction:', error);
+    }
   };
+
+  useEffect(() => {
+    getTransacList();
+  }, [])
 
   const balance = transaction.reduce((total, trans) => {
     return total += trans.price;
